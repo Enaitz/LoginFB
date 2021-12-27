@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "273030084164",
+    "project_id": "authenticationprova-42128",
+    "storage_bucket": "authenticationprova-42128.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:273030084164:android:f7be19d203f267b7fa2e11",
+        "android_client_info": {
+          "package_name": "com.example.loginfb"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "273030084164-4mt5ku9g3kakormh19qms83gau09dfmb.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.loginfb",
+            "certificate_hash": "b28559415f2391cdbad3245e0b5463d7644e1792"
+          }
+        },
+        {
+          "client_id": "273030084164-4j6f5bhunkfmhvheussiqatr0vhs8lcs.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAVpVe06F1QScoReJC_qK0sw75zcXOkY1c"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "273030084164-4j6f5bhunkfmhvheussiqatr0vhs8lcs.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
