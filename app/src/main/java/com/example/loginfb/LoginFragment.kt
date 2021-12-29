@@ -10,6 +10,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment.findNavController
@@ -30,7 +32,6 @@ class LoginFragment : Fragment() {
             inflater, R.layout.fragment_login, container, false
         )
         binding.setLifecycleOwner(this)
-
         //Setup
         setup(binding)
 
@@ -46,6 +47,7 @@ class LoginFragment : Fragment() {
                 FirebaseAuth.getInstance().createUserWithEmailAndPassword(binding.editTextUser.text.toString(),binding.editTextPassword.text.toString()).addOnCompleteListener {
                     if (it.isSuccessful){
                         Toast.makeText(application,"Usuari enregistrat!",Toast.LENGTH_LONG).show()
+                        saveUSerVM(binding.editTextUser.text.toString())
                     }else{
                         showAlert()
                     }
@@ -57,7 +59,9 @@ class LoginFragment : Fragment() {
             if (binding.editTextPassword.text.isNotEmpty()&&binding.editTextUser.text.isNotEmpty()){
                 FirebaseAuth.getInstance().signInWithEmailAndPassword(binding.editTextUser.text.toString(),binding.editTextPassword.text.toString()).addOnCompleteListener {
                     if (it.isSuccessful){
+                        saveUSerVM(binding.editTextUser.text.toString())
                         v.findNavController().navigate(R.id.action_loginFragment_to_displayFragment)
+
                     }else{
                         //showAlert()
                         Log.i("No Register","No ah pogut enregistrar")
@@ -66,6 +70,15 @@ class LoginFragment : Fragment() {
 
             }
         })
+    }
+
+    private fun saveUSerVM(user:String) {
+        val model =
+            ViewModelProvider(
+                requireActivity()
+            ).get(LoginViewModel::class.java)
+
+        model.setUser(user)
     }
 
     private fun showAlert() {

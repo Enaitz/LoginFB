@@ -7,6 +7,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import com.example.loginfb.databinding.FragmentDisplayBinding
 import com.example.loginfb.databinding.FragmentLoginBinding
@@ -26,10 +28,23 @@ class DisplayFragment : Fragment() {
         )
         binding.setLifecycleOwner(this)
         // Inflate the layout for this fragment
-
+        getUserVM(binding)
         //Setup
         setup(binding)
         return binding.root
+    }
+
+    private fun getUserVM(binding: FragmentDisplayBinding) {
+
+            val model =
+                ViewModelProvider(
+                    requireActivity()
+                ).get(LoginViewModel::class.java)
+
+        model.user.observe(viewLifecycleOwner, Observer {
+            binding.textViewUser.text= it
+        })
+
     }
 
     private fun setup(binding: FragmentDisplayBinding) {
