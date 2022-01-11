@@ -20,7 +20,7 @@ import com.google.firebase.ktx.Firebase
 
 
 class DisplayFragment : Fragment() {
-    private lateinit var application : Application
+    private lateinit var application: Application
     // Access a Cloud Firestore instance from your Activity
 
     private val db = Firebase.firestore
@@ -35,6 +35,8 @@ class DisplayFragment : Fragment() {
         )
         binding.setLifecycleOwner(this)
         // Inflate the layout for this fragment
+
+        getUSerDades(binding)
         getUserVM(binding)
         //Setup
         setup(binding)
@@ -42,38 +44,78 @@ class DisplayFragment : Fragment() {
         return binding.root
     }
 
-    private fun FB_actions(binding: FragmentDisplayBinding) {
-    binding.buttonGuardar.setOnClickListener({
-        // Create a new user with a first and last name
-        val user = hashMapOf(
-            "nom" to binding.editTextNom.text.toString(),
-            "mobil" to binding.editTextMobil.text.toString(),
-            "data_naixement" to binding.editTextNaixement.text.toString(),
-            "mail" to binding.textViewUser.text.toString()
-        )
-        // Add a new document with a generated ID
-        db.collection("users").document(binding.textViewUser.text.toString())
-            .set(user)
-            .addOnSuccessListener { documentReference ->
-                Log.d(TAG, "DocumentSnapshot successfully written!")
+    private fun getUSerDades(binding: FragmentDisplayBinding) {
+        // Create a reference to the cities collection
+        //val userRef = db.collection("users").document(binding.textViewUser.text.toString())
+        val userRef = db.collection("users").whereEqualTo("nom","Enaitz")
+
+            userRef.get()
+            .addOnSuccessListener { documents ->
+                for (document in documents) {
+                    Log.d(TAG, "${document.id} => ${document.data}")
+                    binding.editTextNom.setText(document.getString("nom"))
+                    binding.editTextMobil.setText(document.getString("mobil"))
+                    binding.editTextNaixement.setText(document.getString("data_naixement"))
+                }
             }
-            .addOnFailureListener { e ->
-                Log.w(TAG, "Error adding document", e)
+            .addOnFailureListener { exception ->
+                Log.w(TAG, "Error getting documents: ", exception)
             }
 
-    }
-    )
+
+
+       /* userRef.get()
+            .addOnSuccessListener { document ->
+                if (document != null) {
+                    Log.d(TAG, "DocumentSnapshot data: ${document.data}")
+                    apply {
+                        binding.editTextNom.setText(document.getString("nom"))
+                        binding.editTextMobil.setText(document.getString("mobil"))
+                        binding.editTextNaixement.setText(document.getString("data_naixement"))
+                    }
+                } else {
+                    Log.d(TAG, "No such document")
+                }
+            }
+            .addOnFailureListener { exception ->
+                Log.d(TAG, "get failed with ", exception)
+            }*/
+        }
+
+
+
+    private fun FB_actions(binding: FragmentDisplayBinding) {
+        binding.buttonGuardar.setOnClickListener({
+            // Create a new user with a first and last name
+            val user = hashMapOf(
+                "nom" to binding.editTextNom.text.toString(),
+                "mobil" to binding.editTextMobil.text.toString(),
+                "data_naixement" to binding.editTextNaixement.text.toString(),
+                "mail" to binding.textViewUser.text.toString()
+            )
+            // Add a new document with a generated ID
+            db.collection("users").document(binding.textViewUser.text.toString())
+                .set(user)
+                .addOnSuccessListener { documentReference ->
+                    Log.d(TAG, "DocumentSnapshot successfully written!")
+                }
+                .addOnFailureListener { e ->
+                    Log.w(TAG, "Error adding document", e)
+                }
+
+        }
+        )
     }
 
     private fun getUserVM(binding: FragmentDisplayBinding) {
 
-            val model =
-                ViewModelProvider(
-                    requireActivity()
-                ).get(LoginViewModel::class.java)
+        val model =
+            ViewModelProvider(
+                requireActivity()
+            ).get(LoginViewModel::class.java)
 
         model.user.observe(viewLifecycleOwner, Observer {
-            binding.textViewUser.text= it
+            binding.textViewUser.text = it
         })
 
     }
