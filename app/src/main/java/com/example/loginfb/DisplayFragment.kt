@@ -1,7 +1,9 @@
 package com.example.loginfb
 
 import android.app.Application
+import android.content.ContentValues.TAG
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -13,10 +15,15 @@ import androidx.navigation.findNavController
 import com.example.loginfb.databinding.FragmentDisplayBinding
 import com.example.loginfb.databinding.FragmentLoginBinding
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 
 
 class DisplayFragment : Fragment() {
     private lateinit var application : Application
+    // Access a Cloud Firestore instance from your Activity
+
+    private val db = Firebase.firestore
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -31,7 +38,31 @@ class DisplayFragment : Fragment() {
         getUserVM(binding)
         //Setup
         setup(binding)
+        FB_actions(binding)
         return binding.root
+    }
+
+    private fun FB_actions(binding: FragmentDisplayBinding) {
+    binding.buttonGuardar.setOnClickListener({
+        // Create a new user with a first and last name
+        val user = hashMapOf(
+            "nom" to binding.editTextNom.text.toString(),
+            "mobil" to binding.editTextMobil.text.toString(),
+            "data_naixement" to binding.editTextNaixement.text.toString(),
+            "mail" to binding.textViewUser.text.toString()
+        )
+        // Add a new document with a generated ID
+        db.collection("users").document(binding.textViewUser.text.toString())
+            .set(user)
+            .addOnSuccessListener { documentReference ->
+                Log.d(TAG, "DocumentSnapshot successfully written!")
+            }
+            .addOnFailureListener { e ->
+                Log.w(TAG, "Error adding document", e)
+            }
+
+    }
+    )
     }
 
     private fun getUserVM(binding: FragmentDisplayBinding) {

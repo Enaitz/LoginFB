@@ -20,7 +20,7 @@
             android:layout_marginTop="5dp"
             android:layout_marginBottom="20dp"
             android:text="TextView"
-            app:layout_constraintBottom_toTopOf="@+id/button"
+            app:layout_constraintBottom_toTopOf="@+id/buttonLogout"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -42,5 +42,71 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textViewUser" />
+
+        <EditText
+            android:id="@+id/editTextNom"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="82dp"
+            android:ems="10"
+            android:hint="Nom i Cognoms"
+            android:inputType="textPersonName"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <EditText
+            android:id="@+id/editTextMobil"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="43dp"
+            android:layout_marginEnd="9dp"
+            android:ems="10"
+            android:hint="Mòbil"
+            android:inputType="phone"
+            app:layout_constraintEnd_toEndOf="@+id/editTextNom"
+            app:layout_constraintTop_toBottomOf="@+id/editTextNom" />
+
+        <EditText
+            android:id="@+id/editTextNaixement"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="3dp"
+            android:layout_marginTop="43dp"
+            android:ems="10"
+            android:hint="Data naixement"
+            android:inputType="date"
+            app:layout_constraintStart_toStartOf="@+id/editTextMobil"
+            app:layout_constraintTop_toBottomOf="@+id/editTextMobil" />
+
+        <Button
+            android:id="@+id/buttonGuardar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:layout_marginBottom="20dp"
+            android:text="Guardar"
+            app:layout_constraintBottom_toTopOf="@+id/buttonRecuperar"
+            app:layout_constraintStart_toStartOf="@+id/buttonLogout" />
+
+        <Button
+            android:id="@+id/buttonRecuperar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:text="Get"
+            app:layout_constraintBottom_toTopOf="@+id/buttonDelete"
+            app:layout_constraintStart_toStartOf="@+id/buttonDelete" />
+
+        <Button
+            android:id="@+id/buttonDelete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:text="Delete"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
