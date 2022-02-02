@@ -2,6 +2,7 @@ package com.example.loginfb
 
 import android.app.Application
 import android.content.ContentValues.TAG
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -35,19 +36,24 @@ class DisplayFragment : Fragment() {
         )
         binding.setLifecycleOwner(this)
         // Inflate the layout for this fragment
-
-        getUSerDades(binding)
         getUserVM(binding)
-        //Setup
+
+
+        //Setupr
         setup(binding)
         FB_actions(binding)
+        binding.buttonRecyclerV.setOnClickListener {
+        val intent =  Intent(context,RVActivity::class.java)
+        startActivity(intent)
+        }
         return binding.root
     }
 
     private fun getUSerDades(binding: FragmentDisplayBinding) {
         // Create a reference to the cities collection
         //val userRef = db.collection("users").document(binding.textViewUser.text.toString())
-        val userRef = db.collection("users").whereEqualTo("nom","Enaitz")
+        val userRef = db.collection("users").whereEqualTo("mail",binding.textViewUser.text.toString())
+
 
             userRef.get()
             .addOnSuccessListener { documents ->
@@ -82,8 +88,6 @@ class DisplayFragment : Fragment() {
             }*/
         }
 
-
-
     private fun FB_actions(binding: FragmentDisplayBinding) {
         binding.buttonGuardar.setOnClickListener({
             // Create a new user with a first and last name
@@ -116,6 +120,7 @@ class DisplayFragment : Fragment() {
 
         model.user.observe(viewLifecycleOwner, Observer {
             binding.textViewUser.text = it
+            getUSerDades(binding)
         })
 
     }
